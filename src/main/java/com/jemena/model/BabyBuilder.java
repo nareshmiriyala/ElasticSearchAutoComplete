@@ -8,7 +8,7 @@ public final class BabyBuilder {
     private int year;
     private Character gender;
     private int count;
-
+    private int id;
     private BabyBuilder() {
     }
 
@@ -17,6 +17,10 @@ public final class BabyBuilder {
     }
 
 
+    public BabyBuilder withId(int id) {
+        this.id = id;
+        return this;
+    }
     public BabyBuilder withName(String name) {
         this.name = name;
         return this;
@@ -39,6 +43,7 @@ public final class BabyBuilder {
 
     public Baby build() {
         Baby baby = new Baby();
+        baby.setId(id);
         baby.setName(name);
         baby.setYear(year);
         baby.setGender(gender);

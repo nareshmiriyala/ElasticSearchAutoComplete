@@ -2,7 +2,11 @@ package com.jemena.elastic;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jemena.csv.Reader;
 import com.jemena.model.Baby;
+import com.jemena.model.BabyBuilder;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
@@ -10,10 +14,12 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -27,6 +33,9 @@ public class JavaClient {
     public static final String TYPE = "baby";
     private Logger logger = LoggerFactory.getLogger(JavaClient.class);
     private static Client client;
+
+    @Autowired
+    private Reader csvReader;
 
     public void start() {
         try {
@@ -42,6 +51,22 @@ public class JavaClient {
 
     public void index(Baby baby)  {
         ObjectMapper mapper = new ObjectMapper();
+        indexValue(baby,mapper);
+
+    }
+    public void index(){
+
+        List<String[]> rows = csvReader.read("NationalNames.csv");
+        rows.remove(0);
+        ObjectMapper mapper = new ObjectMapper();
+        rows.parallelStream().forEachOrdered(row->{
+            Baby baby = BabyBuilder.aBaby().withId(Integer.parseInt(row[0])).withName(row[1]).withYear(Integer.parseInt(row[2])).withGender(row[3].charAt(0)).withCount(Integer.parseInt(row[4])).build();
+            indexValue(baby,mapper);
+        });
+    }
+
+    private void indexValue(Baby baby,ObjectMapper mapper) {
+
         String jsonString = null;
         try {
             jsonString = mapper.writeValueAsString(baby);
@@ -49,13 +74,13 @@ public class JavaClient {
             logger.error("Parsing json error",e);
         }
         if (nonNull(client)) {
-            IndexResponse indexResponse = client.prepareIndex(INDEX_NAME, TYPE, "1")
+            IndexResponse indexResponse = client.prepareIndex(INDEX_NAME, TYPE, String.valueOf(baby.getId()))
                     .setSource(jsonString)
                     .get();
             logger.info("Response of indexing {}", indexResponse.getId());
         }
-
     }
+
     public GetResponse get(String id){
         GetResponse response = client.prepareGet(INDEX_NAME, TYPE, id).get();
         logger.info("Response of get call {}",response.getId());
@@ -66,5 +91,8 @@ public class JavaClient {
         if (nonNull(client)) {
             client.close();
         }
+    }
+    public void delete(){
+        client.delete(new DeleteRequest(INDEX_NAME));
     }
 }

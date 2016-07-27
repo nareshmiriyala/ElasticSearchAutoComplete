@@ -29,10 +29,15 @@ public class Application implements CommandLineRunner {
 
     private void transportClientInsert() {
         transportClient.start();
-        transportClient.index(createBaby());
-        transportClient.get("1");
+        insertIndex();
+//        transportClient.delete();
         transportClient.stop();
 
+    }
+
+    private void insertIndex() {
+        transportClient.index();
+        transportClient.get("1");
     }
 
     private void restClientInsert() {
