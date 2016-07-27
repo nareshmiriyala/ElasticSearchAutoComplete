@@ -24,7 +24,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        transportClientInsert();
+//        transportClientInsert();
     }
 
     private void transportClientInsert() {
