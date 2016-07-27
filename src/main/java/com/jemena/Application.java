@@ -1,5 +1,6 @@
 package com.jemena;
 
+import com.jemena.elastic.JavaClient;
 import com.jemena.elastic.RestClient;
 import com.jemena.model.Baby;
 import com.jemena.model.BabyBuilder;
@@ -15,13 +16,31 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application implements CommandLineRunner {
     @Autowired
     private RestClient restClient;
+    @Autowired
+    private JavaClient transportClient;
     public static void main(String args[]) {
         SpringApplication.run(Application.class);
     }
 
     @Override
     public void run(String... strings) throws Exception {
-        restClient.insertBaby(BabyBuilder.aBaby().withName("Vihaan").withGender('M').withYear(2016).withCount(1).build());
+        transportClientInsert();
+    }
+
+    private void transportClientInsert() {
+        transportClient.start();
+        transportClient.index(createBaby());
+        transportClient.get("1");
+        transportClient.stop();
+
+    }
+
+    private void restClientInsert() {
+        restClient.insertBaby(createBaby());
         restClient.getBaby(1000023);
+    }
+
+    private Baby createBaby() {
+        return BabyBuilder.aBaby().withName("Vihaan").withGender('M').withYear(2016).withCount(1).build();
     }
 }
