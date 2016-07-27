@@ -13,19 +13,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Created by nmiriyal on 27/07/2016.
  */
 @SpringBootApplication
-public class Application implements CommandLineRunner {
+public class Application  {
     @Autowired
     private RestClient restClient;
     @Autowired
     private JavaClient transportClient;
-    public static void main(String args[]) {
-        SpringApplication.run(Application.class);
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
     }
-
-    @Override
-    public void run(String... strings) throws Exception {
-//        transportClientInsert();
-    }
+//
+//    @Override
+//    public void run(String... strings) throws Exception {
+////        transportClientInsert();
+//    }
 
     private void transportClientInsert() {
         transportClient.start();

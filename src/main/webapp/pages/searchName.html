@@ -30,51 +30,9 @@
                     </div>
 
                     <input class="btn btn-success btn-block" type="submit" value="Search">
-                    <button class="btn btn-block" ng-click="insertRecords()">Insert</button>
-                    <button class="btn btn-block" ng-click="indexRecords()">Index</button>
                 </form>
-                <br>
 
-                <div class="control-group">
-                    <div class="control-label">
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th>
-                                    Id
-                                </th>
-                                <th>Name</th>
-                                <th>Gender</th>
-                                <th>
-                                    Year
-                                </th>
-                                <th>
-                                    Count
-                                </th>
-                            </tr>
-                            </thead>
-                            <tr ng-repeat="row in data.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))|orderBy:orderByField:reverseSort">
-                                <td>{{row.id}}</td>
-                                <td>{{row.name}}</td>
-                                <td>{{row.gender}}</td>
-                                <td>{{row.year}}</td>
-                                <td>{{row.count}}</td>
-                            </tr>
-                        </table>
-                        View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)">
-                        <option>3</option>
-                        <option>5</option>
-                        <option>10</option>
-                        <option>20</option>
-                        <option>30</option>
-                        <option>40</option>
-                        <option>50</option>
-                    </select> records at a time.
 
-                        <uib-pagination total-items="totalItems" ng-model="currentPage"
-                                        items-per-page="itemsPerPage"></uib-pagination>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
