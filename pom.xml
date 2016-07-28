@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jemena</groupId>
-    <artifactId>MsiElasticSearchClient</artifactId>
+    <artifactId>ElasticSearchAutoComplete</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>MsiElasticSearchClient</name>
+    <name>ElasticSearchAutoComplete</name>
     <url>http://maven.apache.org</url>
     <parent>
         <groupId>org.springframework.boot</groupId>

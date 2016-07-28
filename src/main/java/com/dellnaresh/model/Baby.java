@@ -1,4 +1,4 @@
-package com.jemena.model;
+package com.dellnaresh.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

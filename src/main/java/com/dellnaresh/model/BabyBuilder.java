@@ -1,4 +1,4 @@
-package com.jemena.model;
+package com.dellnaresh.model;
 
 /**
  * Created by nmiriyal on 27/07/2016.

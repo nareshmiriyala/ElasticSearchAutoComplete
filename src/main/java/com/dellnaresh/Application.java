@@ -1,11 +1,10 @@
-package com.jemena;
+package com.dellnaresh;
 
-import com.jemena.elastic.JavaClient;
-import com.jemena.elastic.RestClient;
-import com.jemena.model.Baby;
-import com.jemena.model.BabyBuilder;
+import com.dellnaresh.elastic.JavaClient;
+import com.dellnaresh.elastic.RestClient;
+import com.dellnaresh.model.Baby;
+import com.dellnaresh.model.BabyBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

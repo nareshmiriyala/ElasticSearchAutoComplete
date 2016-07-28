@@ -1,4 +1,4 @@
-package com.jemena.csv;
+package com.dellnaresh.csv;
 
 import com.opencsv.CSVReader;
 import org.slf4j.Logger;

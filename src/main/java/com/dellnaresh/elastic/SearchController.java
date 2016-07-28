@@ -1,4 +1,4 @@
-package com.jemena.elastic;
+package com.dellnaresh.elastic;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.slf4j.Logger;

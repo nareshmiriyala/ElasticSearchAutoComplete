@@ -1,11 +1,11 @@
-package com.jemena.elastic;
+package com.dellnaresh.elastic;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.jemena.csv.Reader;
-import com.jemena.model.Baby;
-import com.jemena.model.BabyBuilder;
+import com.dellnaresh.csv.Reader;
+import com.dellnaresh.model.Baby;
+import com.dellnaresh.model.BabyBuilder;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
@@ -30,9 +30,7 @@ import java.util.Map;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-import static org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery;
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
-import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.elasticsearch.index.query.QueryBuilders.commonTermsQuery;
 
 /**
  * Created by nmiriyal on 27/07/2016.
@@ -123,12 +121,13 @@ public class JavaClient {
         return null;
     }
     public SearchResponse search(String searchStr){
-        QueryBuilder queryBuilder=termQuery("name", searchStr);
+        QueryBuilder queryBuilder=commonTermsQuery("name", searchStr);
         SearchResponse searchResponse = client.prepareSearch(INDEX_NAME)
                 .setTypes(TYPE)
                 .setQuery(queryBuilder)
                 .setExplain(true)
-
+                 .setSize(100)
+                .setMinScore(0.90f)
                 .execute()
                 .actionGet();
         return searchResponse;

@@ -30,7 +30,7 @@ var searchFunction = function ($scope, searchFactory, dbInsert, elasticIndex) {
             .then(function (response) {
               var json=[];
               for(var i=0; i < response.data.length; i++){
-                  json.push(response.data[i].name);
+                  json.push(response.data[i].name+","+response.data[i].id);
               }
               console.log("Response from server:"+json)
               return json;
