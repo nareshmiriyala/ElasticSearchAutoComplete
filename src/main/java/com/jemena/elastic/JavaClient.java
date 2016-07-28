@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.jemena.csv.Reader;
 import com.jemena.model.Baby;
 import com.jemena.model.BabyBuilder;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
@@ -14,7 +13,6 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
@@ -22,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -30,7 +30,9 @@ import java.util.Map;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 /**
  * Created by nmiriyal on 27/07/2016.
@@ -40,11 +42,11 @@ public class JavaClient {
     public static final String INDEX_NAME = "babies";
     public static final String TYPE = "baby";
     private Logger logger = LoggerFactory.getLogger(JavaClient.class);
-    private static Client client;
+    private  Client client;
 
     @Autowired
     private Reader csvReader;
-
+    @PostConstruct
     public void start() {
         try {
             if (isNull(client)) {
@@ -94,7 +96,7 @@ public class JavaClient {
         logger.info("Response of get call {}",response.getId());
         return response;
     }
-
+    @PreDestroy
     public void stop() {
         if (nonNull(client)) {
             client.close();
@@ -121,11 +123,12 @@ public class JavaClient {
         return null;
     }
     public SearchResponse search(String searchStr){
-        QueryBuilder queryBuilder=matchQuery("name",searchStr);
+        QueryBuilder queryBuilder=termQuery("name", searchStr);
         SearchResponse searchResponse = client.prepareSearch(INDEX_NAME)
                 .setTypes(TYPE)
                 .setQuery(queryBuilder)
                 .setExplain(true)
+
                 .execute()
                 .actionGet();
         return searchResponse;

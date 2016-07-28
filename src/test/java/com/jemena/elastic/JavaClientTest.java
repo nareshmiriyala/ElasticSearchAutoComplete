@@ -27,7 +27,7 @@ public class JavaClientTest {
 
     @Test
     public void testSearch() throws InterruptedException {
-        SearchResponse searchResponse = javaClient.search("john");
+        SearchResponse searchResponse = javaClient.search("dan");
         System.out.println("Total hits:"+javaClient.getJson(searchResponse));
     }
 

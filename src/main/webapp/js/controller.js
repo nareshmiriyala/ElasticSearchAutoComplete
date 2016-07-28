@@ -24,12 +24,16 @@ var pageController = function (/* $scope, $location, $http */) {
 var searchFunction = function ($scope, searchFactory, dbInsert, elasticIndex) {
     $scope.data = [];
 
-    $scope.search = function () {
-        console.log("Search :" + $scope.query)
-        searchFactory.getSearchResults($scope.query)
+    $scope.search = function (name) {
+        console.log("Search :" + name)
+      return  searchFactory.getSearchResults(name)
             .then(function (response) {
-                $scope.data = response.data;
-                $scope.totalItems = $scope.data.length;
+              var json=[];
+              for(var i=0; i < response.data.length; i++){
+                  json.push(response.data[i].name);
+              }
+              console.log("Response from server:"+json)
+              return json;
             });
     };
 
