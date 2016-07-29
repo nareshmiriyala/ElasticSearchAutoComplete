@@ -29,8 +29,9 @@ var searchFunction = function ($scope, searchFactory, dbInsert, elasticIndex) {
       return  searchFactory.getSearchResults(name)
             .then(function (response) {
               var json=[];
-              for(var i=0; i < response.data.length; i++){
-                  json.push(response.data[i].name+","+response.data[i].id);
+              var resp=response.data;
+              for(var i=0; i < resp.length; i++){
+                  json.push(resp[i].name+","+resp[i].count+","+resp[i].year+","+resp[i].gender);
               }
               console.log("Response from server:"+json)
               return json;
