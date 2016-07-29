@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import static org.elasticsearch.index.query.QueryBuilders.commonTermsQuery;
  * Created by nmiriyal on 27/07/2016.
  */
 @Component
-public class JavaClient {
+public class JavaClient  implements Serializable{
     public static final String INDEX_NAME = "babies";
     public static final String TYPE = "baby";
     private Logger logger = LoggerFactory.getLogger(JavaClient.class);
@@ -45,7 +46,7 @@ public class JavaClient {
     @Autowired
     private Reader csvReader;
     @PostConstruct
-    public void start() {
+    public Client start() {
         try {
             if (isNull(client)) {
                 client = TransportClient.builder().build()
@@ -55,6 +56,7 @@ public class JavaClient {
         } catch (UnknownHostException e) {
             logger.error("Cant start the transport client", e);
         }
+        return client;
     }
 
     public void index(Baby baby)  {

@@ -1,5 +1,6 @@
 package com.dellnaresh.apache.scala
 
+import com.dellnaresh.elastic.JavaClient
 import org.scalatest.FunSuite
 
 
