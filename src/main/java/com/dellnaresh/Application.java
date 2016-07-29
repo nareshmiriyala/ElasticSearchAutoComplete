@@ -5,6 +5,7 @@ import com.dellnaresh.elastic.RestClient;
 import com.dellnaresh.model.Baby;
 import com.dellnaresh.model.BabyBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Created by nmiriyal on 27/07/2016.
  */
 @SpringBootApplication
-public class Application  {
+public class Application  implements CommandLineRunner{
     @Autowired
     private RestClient restClient;
     @Autowired
@@ -21,11 +22,10 @@ public class Application  {
         SpringApplication.run(Application.class, args);
     }
 
-//    @Override
-//    public void run(String... strings) throws Exception {
-////        transportClientInsert();
-//        transportClient.start();
-//    }
+    @Override
+    public void run(String... strings) throws Exception {
+//        transportClientInsert();
+    }
 
     private void transportClientInsert() {
         transportClient.start();

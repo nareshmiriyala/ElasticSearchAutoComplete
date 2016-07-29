@@ -39,4 +39,10 @@ public class CsvReader implements Reader {
         }
         return null;
     }
+
+    public File readCSV(String fileName) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(fileName).getFile());
+        return file;
+    }
 }
