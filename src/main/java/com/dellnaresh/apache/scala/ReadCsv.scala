@@ -34,7 +34,7 @@ object ReadCsv extends java.io.Serializable{
     val conf: SparkConf = new SparkConf()
     conf.setMaster("local[*]").setAppName("BabyNameSearch")
     val sc: SparkContext = new SparkContext(conf)
-    val inputFile=sc.textFile(csvPath("Nar.csv"));
+    val inputFile=sc.textFile(csvPath("NationalNames.csv"));
     val result = inputFile.map{ line =>
       val reader = new CSVReader(new StringReader(line));
       val x = reader.readNext()
